@@ -1,0 +1,5 @@
+.credentials
+.temp
+.env
+client_secret.json
+node_modules
