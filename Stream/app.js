@@ -424,7 +424,7 @@ function addInfo(fileId, fileInfo){
   var info = {id: fileId, info: fileInfo}
   info.getVideoLength = new Promise((resolve, reject) => {
     if(!info.videoLength){
-      getDuration('http://127.0.0.1:' + PORT + '/' + fileId).then((duration) => {
+      getDuration('https://nikflix-stream.vercel.app' + '/' + fileId).then((duration) => {
         info.videoLength = duration
         resolve(duration)
       })
