@@ -423,7 +423,7 @@ function getInfoFromId(fileId){
   return result
 }
 
-async function addInfo(fileId, fileInfo){
+function addInfo(fileId, fileInfo){
   var info = {id: fileId, info: fileInfo};
   
   info.getVideoLength = new Promise(async (resolve, reject) => {
