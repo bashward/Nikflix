@@ -6,9 +6,7 @@ const cors=require('cors')
 var https = require('https')
 var endMw = require('express-end')
 var stream = require('stream');
-const { promisify } = require('util');
-const getVideoDurationInSeconds = require('node-video-lib');
-//const getDuration = require('get-video-duration');
+const getDuration = require('get-video-duration');
 //const ffprobe = require('@ffprobe-installer/ffprobe');
 const db=require('./db')
 require('dotenv').config()
@@ -423,48 +421,27 @@ function getInfoFromId(fileId){
   return result
 }
 
+
 function addInfo(fileId, fileInfo){
-  var info = {id: fileId, info: fileInfo};
-  
-  info.getVideoLength = new Promise(async (resolve, reject) => {
+  var info = {id: fileId, info: fileInfo}
+  info.getVideoLength = new Promise((resolve, reject) => {
     if(!info.videoLength){
-      try {
-        const filePath = 'https://nikflix-stream.vercel.app' + '/' + fileId;
-        const videoDuration = await promisify(getVideoDurationInSeconds)(filePath);
-        info.videoLength = videoDuration;
-        resolve(videoDuration);
-      } catch (error) {
+      getDuration('https://nikflix-stream.vercel.app' + '/' + fileId).then((duration) => {
+        info.videoLength = duration
+        resolve(duration)
+      })
+      .catch((error) => {
         console.log(error);
-        reject(error);
-      }
-    } else {
-      resolve(info.videoLength);
+        reject(error)
+      })
+    }else{
+      resolve(info.videoLength)
     }
-  });
-
-  filesInfo.push(info);
-}
-
-// function addInfo(fileId, fileInfo){
-//   var info = {id: fileId, info: fileInfo}
-//   info.getVideoLength = new Promise((resolve, reject) => {
-//     if(!info.videoLength){
-//       getDuration('https://nikflix-stream.vercel.app' + '/' + fileId).then((duration) => {
-//         info.videoLength = duration
-//         resolve(duration)
-//       })
-//       .catch((error) => {
-//         console.log(error);
-//         reject(error)
-//       })
-//     }else{
-//       resolve(info.videoLength)
-//     }
     
-//   })
+  })
 
-//   filesInfo.push(info)
-// }
+  filesInfo.push(info)
+}
 
 //Downloads status
 var downloadStatus = []
