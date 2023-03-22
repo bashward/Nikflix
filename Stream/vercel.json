@@ -4,6 +4,8 @@
     ],
     "routes": [
         { "src": "/(.*)", "dest": "app.js" }
-      ]
-    
+      ],
+      "dependencies": {
+        "get-video-duration": "^4.1.0"
+      }
   }
