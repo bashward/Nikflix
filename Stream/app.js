@@ -426,7 +426,7 @@ function addInfo(fileId, fileInfo){
   var info = {id: fileId, info: fileInfo}
   info.getVideoLength = new Promise((resolve, reject) => {
     if(!info.videoLength){
-      getDuration('https://nikflix-production.up.railway.app/' + '/' + fileId).then((duration) => {
+      getDuration('https:localhost:9001' + '/' + fileId).then((duration) => {
         info.videoLength = duration
         resolve(duration)
       })
