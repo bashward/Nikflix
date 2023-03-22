@@ -6,7 +6,7 @@ const cors=require('cors')
 var https = require('https')
 var endMw = require('express-end')
 var stream = require('stream');
-const getDuration = require('get-video-duration');
+const {getVideoDurationInSeconds} = require('get-video-duration');
 const ffprobe = require('@ffprobe-installer/ffprobe');
 const db=require('./db')
 require('dotenv').config()
@@ -72,7 +72,7 @@ function refreshToken(oauth2Client, callback) {
 async function storeToken(token) {
   try {
     const writeToken=await db.newToken(token);
-    console.log(writeToken)
+    //console.log(writeToken)
   } catch (err) {
     if (err.code != 'EEXIST') {
       throw err;
@@ -426,7 +426,7 @@ function addInfo(fileId, fileInfo){
   var info = {id: fileId, info: fileInfo}
   info.getVideoLength = new Promise((resolve, reject) => {
     if(!info.videoLength){
-      getDuration('https://nikflix-stream.vercel.app' + '/' + fileId).then((duration) => {
+      getVideoDurationInSeconds('http://localhost:9001' + '/' + fileId).then((duration) => {
         info.videoLength = duration
         resolve(duration)
       })
