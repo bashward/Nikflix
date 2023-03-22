@@ -7,7 +7,7 @@ var https = require('https')
 var endMw = require('express-end')
 var stream = require('stream');
 const getDuration = require('get-video-duration');
-const ffprobe = require('@ffprobe-installer/ffprobe').path;
+const ffprobe = require('@ffprobe-installer/ffprobe');
 const db=require('./db')
 require('dotenv').config()
 var app = express()
