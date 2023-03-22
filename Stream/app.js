@@ -7,7 +7,7 @@ var https = require('https')
 var endMw = require('express-end')
 var stream = require('stream');
 const getDuration = require('get-video-duration');
-const ffprobe = require('@ffprobe-installer/ffprobe');
+const ffprobe = require('@ffprobe-installer/ffprobe').path;
 const db=require('./db')
 require('dotenv').config()
 var app = express()
@@ -426,7 +426,7 @@ function addInfo(fileId, fileInfo){
   var info = {id: fileId, info: fileInfo}
   info.getVideoLength = new Promise((resolve, reject) => {
     if(!info.videoLength){
-      getDuration('https://nikflix-stream.vercel.app' + '/' + fileId).then((duration) => {
+      getDuration('https://nikflix-stream.vercel.app' + '/' + fileId,{ ffprobe }).then((duration) => {
         info.videoLength = duration
         resolve(duration)
       })
