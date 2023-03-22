@@ -2,6 +2,9 @@
     "builds": [
       { "src": "app.js", "use": "@vercel/node" }
     ],
+    "env": {
+      "FFPROBE_PATH": "./ffprobe"
+    },
     "routes": [
         { "src": "/(.*)", "dest": "app.js" }
       ]
